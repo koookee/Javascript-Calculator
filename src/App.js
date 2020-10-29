@@ -6,19 +6,24 @@ class App extends React.Component{
   constructor(){
     super();
     this.state = {
-      test:"failed"
+      test:"0"
     };
     this.handleChange = this.handleChange.bind(this);
   }
-  handleChange(data){
-    this.setState({test:"data"});
-    console.log(this.state.test);
+  handleChange(data,executeResult){
+    this.setState((prevState) => {
+      return {test:prevState.test + data};
+    }
+  );
+    if(executeResult){
+      this.setState({test:"0"})
+    }
   }
   render(){
     return(
       <div>
-        <ButtonUI onChangeData={this.handleChange} />
-        <p>{this.state.test}</p>
+        <ButtonUI name="equals" symbol="=" onChangeData={this.handleChange} />
+        <p id="display" style={{margin:"1em 40em"}}>{this.state.test}</p>
       </div>
     )
   }
