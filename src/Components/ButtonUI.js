@@ -7,11 +7,16 @@ class ButtonUI extends React.Component{
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick(e){
-    this.props.onChangeData(e.target.value,true);
+    if(this.props.symbol == "="){
+      this.props.onChangeData(e.target.value,"equal");
+    }
+    else {
+      this.props.onChangeData(e.target.value,"number");
+    }
   }
   render(){
     return(
-      <div style={{margin:"5em 40em"}}>
+      <div>
         <input type="button" id={this.props.name} value={this.props.symbol} onClick={this.handleClick} />
       </div>
     )
