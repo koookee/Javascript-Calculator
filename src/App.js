@@ -2,6 +2,10 @@ import React from 'react';
 import './App.css';
 import ButtonUI from './Components/ButtonUI';
 
+let startingNum = true;
+let numOfOperators = 0; //Number of consecutive operators
+let oldDisplay = ""; //Display before adding operator
+
 class App extends React.Component{
   constructor(){
     super();
@@ -11,19 +15,39 @@ class App extends React.Component{
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(data,typeOfData){
-    let numOfOperators = 0; //Number of consecutive operators
 
     if(typeOfData == "equal"){
       let answer = eval(this.state.displayState);
       this.setState({displayState:answer});
+      startingNum = true;
     }
     else if(typeOfData == "operators"){
-      this.setState((prevState) => {
-        return {displayState:prevState.displayState + data};})
-    }
-    else if(typeOfData=="number"){
+      //Doesn't allow two or more consecutive operators
+      if (numOfOperators < 1) {
+        oldDisplay = this.state.displayState;
         this.setState((prevState) => {
           return {displayState:prevState.displayState + data};})
+      }
+      else {
+        this.setState({displayState:oldDisplay + data}); //Replaces old operator with new one
+      }
+      numOfOperators++;
+      if (startingNum) {
+        startingNum = false;
+      }
+    }
+    else if(typeOfData=="number"){
+      numOfOperators = 0;
+      if (startingNum && data != "0") {
+        this.setState({displayState:data})
+        startingNum = false;
+      }
+      else {
+        if (!startingNum) {
+          this.setState((prevState) => {
+            return {displayState:prevState.displayState + data};})
+        }
+      }
   }
 }
   render(){

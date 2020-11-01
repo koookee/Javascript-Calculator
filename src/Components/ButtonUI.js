@@ -10,6 +10,9 @@ class ButtonUI extends React.Component{
     if(this.props.symbol == "="){
       this.props.onChangeData(e.target.value,"equal");
     }
+    else if(this.props.symbol == "+" || this.props.symbol == "*" || this.props.symbol == "/" || this.props.symbol == "-"){
+      this.props.onChangeData(e.target.value,"operators");
+    }
     else {
       this.props.onChangeData(e.target.value,"number");
     }
