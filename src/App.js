@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import ButtonUI from './Components/ButtonUI';
 
-let startingNum = true;
+let startingNum = true; //Starting num is inital state of calculator
 let numOfOperators = 0; //Number of consecutive operators
 let oldDisplay = ""; //Display before adding operator
+let gotAnswer = false; //True only after the user presses the equal sign
 
 class App extends React.Component{
   constructor(){
@@ -19,34 +20,44 @@ class App extends React.Component{
     if(typeOfData == "equal"){
       let answer = eval(this.state.displayState);
       this.setState({displayState:answer});
-      startingNum = true;
+      gotAnswer = true;
     }
     else if(typeOfData == "operators"){
+
+      gotAnswer = false;
+      console.log(gotAnswer);
+      console.log(startingNum);
+
       //Doesn't allow two or more consecutive operators
-      if (numOfOperators < 1) {
+      if (numOfOperators == 0) {
         oldDisplay = this.state.displayState;
         this.setState((prevState) => {
           return {displayState:prevState.displayState + data};})
+        numOfOperators++;
+      }
+      else if (numOfOperators == 1 && data == "-") {
+        this.setState((prevState) => {
+          return {displayState:prevState.displayState + data};})
+        numOfOperators++;
       }
       else {
         this.setState({displayState:oldDisplay + data}); //Replaces old operator with new one
-      }
-      numOfOperators++;
-      if (startingNum) {
-        startingNum = false;
+        numOfOperators = 1;
       }
     }
     else if(typeOfData=="number"){
       numOfOperators = 0;
-      if (startingNum && data != "0") {
+      if ((startingNum && data != "0") || gotAnswer) {
         this.setState({displayState:data})
         startingNum = false;
-      }
-      else {
-        if (!startingNum) {
-          this.setState((prevState) => {
-            return {displayState:prevState.displayState + data};})
+        if(gotAnswer && data == "0"){
+          startingNum = true; //Back to the initial state
         }
+        gotAnswer = false;
+      }
+      else if (!startingNum && !gotAnswer) {
+        this.setState((prevState) => {
+          return {displayState:prevState.displayState + data};})
       }
   }
 }
