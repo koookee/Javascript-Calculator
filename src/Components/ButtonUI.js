@@ -13,6 +13,9 @@ class ButtonUI extends React.Component{
     else if(this.props.symbol == "+" || this.props.symbol == "*" || this.props.symbol == "/" || this.props.symbol == "-"){
       this.props.onChangeData(e.target.value,"operators");
     }
+    else if (this.props.symbol == ".") {
+      this.props.onChangeData(e.target.value,"decimal")
+    }
     else {
       this.props.onChangeData(e.target.value,"number");
     }

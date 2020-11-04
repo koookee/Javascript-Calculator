@@ -4,6 +4,7 @@ import ButtonUI from './Components/ButtonUI';
 
 let startingNum = true; //Starting num is inital state of calculator
 let numOfOperators = 0; //Number of consecutive operators
+let canAddDecimal  = true;
 let oldDisplay = ""; //Display before adding operator
 let gotAnswer = false; //True only after the user presses the equal sign
 
@@ -25,8 +26,8 @@ class App extends React.Component{
     else if(typeOfData == "operators"){
 
       gotAnswer = false;
-      console.log(gotAnswer);
-      console.log(startingNum);
+      startingNum = false;
+      canAddDecimal = true;
 
       //Doesn't allow two or more consecutive operators
       if (numOfOperators == 0) {
@@ -44,6 +45,31 @@ class App extends React.Component{
         this.setState({displayState:oldDisplay + data}); //Replaces old operator with new one
         numOfOperators = 1;
       }
+    }
+    else if (typeOfData == "decimal") {
+      let prevChar = this.state.displayState.charAt(this.state.displayState.length - 1);
+      if(canAddDecimal){
+        if(startingNum || gotAnswer) {
+          this.setState(prevState => {
+            return {displayState:"0" + data}
+          })
+        }
+        else if(prevChar != "*" && prevChar != "/" && prevChar != "-" && prevChar != "+"){
+          this.setState(prevState => {
+            return {displayState:prevState.displayState + data}
+          })
+        }
+        else {
+          this.setState(prevState => {
+            return {displayState:prevState.displayState + "0" + data}
+          })
+        }
+      }
+
+      canAddDecimal = false;
+      startingNum = false;
+      gotAnswer = false;
+      numOfOperators = 0;
     }
     else if(typeOfData=="number"){
       numOfOperators = 0;
@@ -80,6 +106,7 @@ class App extends React.Component{
         <ButtonUI name="subtract" symbol="-" onChangeData={this.handleChange} />
         <ButtonUI name="multiply" symbol="*" onChangeData={this.handleChange} />
         <ButtonUI name="divide" symbol="/" onChangeData={this.handleChange} />
+        <ButtonUI name="decimal" symbol="." onChangeData={this.handleChange} />
         <p id="display">{this.state.displayState}</p>
       </div>
     )
