@@ -19,10 +19,17 @@ class App extends React.Component{
   handleChange(data,typeOfData){
 
     if(typeOfData == "equal"){
-      let answer = eval(this.state.displayState);
-      this.setState({displayState:answer});
-      gotAnswer = true;
+      if(numOfOperators == 0) { //Only gets the result when the equation doesn't end with an operator
+        let answer = eval(this.state.displayState);
+        if(answer == 0){
+          startingNum = true;
+        }
+        this.setState({displayState:answer});
+        gotAnswer = true;
+        canAddDecimal = true;
+      }
     }
+
     else if(typeOfData == "operators"){
 
       gotAnswer = false;
@@ -46,22 +53,22 @@ class App extends React.Component{
         numOfOperators = 1;
       }
     }
+
     else if (typeOfData == "decimal") {
-      let prevChar = this.state.displayState.charAt(this.state.displayState.length - 1);
       if(canAddDecimal){
         if(startingNum || gotAnswer) {
-          this.setState(prevState => {
-            return {displayState:"0" + data}
+          this.setState(prevState => { //Replaces state with 0.
+            return {displayState:"0" + data} //0.
           })
         }
-        else if(prevChar != "*" && prevChar != "/" && prevChar != "-" && prevChar != "+"){
-          this.setState(prevState => {
-            return {displayState:prevState.displayState + data}
+        else if(numOfOperators == 0){
+          this.setState(prevState => { //Adds . to a number
+            return {displayState:prevState.displayState + data} // x.
           })
         }
         else {
-          this.setState(prevState => {
-            return {displayState:prevState.displayState + "0" + data}
+          this.setState(prevState => { //Adds 0. after an operator
+            return {displayState:prevState.displayState + "0" + data} //0.1
           })
         }
       }
@@ -71,6 +78,7 @@ class App extends React.Component{
       gotAnswer = false;
       numOfOperators = 0;
     }
+
     else if(typeOfData=="number"){
       numOfOperators = 0;
       if ((startingNum && data != "0") || gotAnswer) {
@@ -85,6 +93,12 @@ class App extends React.Component{
         this.setState((prevState) => {
           return {displayState:prevState.displayState + data};})
       }
+  }
+  else if (typeOfData == "clear") {
+    this.setState({displayState:"0"})
+    startingNum = true;
+    numOfOperators = 0;
+    canAddDecimal = true;
   }
 }
   render(){
@@ -107,6 +121,7 @@ class App extends React.Component{
         <ButtonUI name="multiply" symbol="*" onChangeData={this.handleChange} />
         <ButtonUI name="divide" symbol="/" onChangeData={this.handleChange} />
         <ButtonUI name="decimal" symbol="." onChangeData={this.handleChange} />
+        <ButtonUI name="clear" symbol="AC" onChangeData={this.handleChange} />
         <p id="display">{this.state.displayState}</p>
       </div>
     )
