@@ -4,8 +4,10 @@ import ButtonUI from './Components/ButtonUI';
 
 let startingNum = true; //Starting num is inital state of calculator
 let numOfOperators = 0; //Number of consecutive operators
-let canAddDecimal  = true;
-let oldDisplay = ""; //Display before adding operator
+let canAddDecimal  = true; //If there's no decimals already
+let canAddZero = true;
+let oldDisplay = ""; //Display before adding operators
+let oldDisplayNum = ""; //Display before adding consecutive 0s
 let gotAnswer = false; //True only after the user presses the equal sign
 
 class App extends React.Component{
@@ -25,8 +27,10 @@ class App extends React.Component{
           startingNum = true;
         }
         this.setState({displayState:answer});
+
         gotAnswer = true;
         canAddDecimal = true;
+        canAddZero = true;
       }
     }
 
@@ -35,6 +39,7 @@ class App extends React.Component{
       gotAnswer = false;
       startingNum = false;
       canAddDecimal = true;
+      canAddZero = true;
 
       //Doesn't allow two or more consecutive operators
       if (numOfOperators == 0) {
@@ -74,13 +79,17 @@ class App extends React.Component{
       }
 
       canAddDecimal = false;
+      canAddZero = true;
       startingNum = false;
       gotAnswer = false;
       numOfOperators = 0;
     }
 
     else if(typeOfData=="number"){
-      numOfOperators = 0;
+      if(numOfOperators > 0 && data == "0") { //Prevents consecutive 0s after an operator
+        canAddZero = false;
+        oldDisplayNum = this.state.displayState; //State before 0 is added
+      }
       if ((startingNum && data != "0") || gotAnswer) {
         this.setState({displayState:data})
         startingNum = false;
@@ -90,9 +99,20 @@ class App extends React.Component{
         gotAnswer = false;
       }
       else if (!startingNum && !gotAnswer) {
-        this.setState((prevState) => {
-          return {displayState:prevState.displayState + data};})
+        if(!canAddZero && data != "0"){
+          this.setState({displayState:oldDisplayNum + data})
+          canAddZero = true;
+        }
+        else if(!canAddZero && data == "0") {
+          this.setState({displayState:oldDisplayNum + data})
+        }
+        else {
+          this.setState((prevState) => {
+            return {displayState:prevState.displayState + data};})
+        }
       }
+
+      numOfOperators = 0;
   }
   else if (typeOfData == "clear") {
     this.setState({displayState:"0"})
