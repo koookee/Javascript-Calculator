@@ -122,9 +122,15 @@ class App extends React.Component{
   }
 }
   render(){
+    let calculatorUI = {
+      display:"grid",gridTemplateRows: "15px 15px 15px 15px 15px",
+      gridTemplateColumns: "15px 15px 15px 15px", columnGap:"25px", rowGap:"25px",
+      position:"absolute",left: "50%",top: "50%",transform: "translate(-50%, -50%)",
+      border: "0px solid #000000",padding: "10px"}
+
     return(
-      <div style={{margin:"4em 15em",display:"grid",gridTemplateRows: "5% 5% 5% 5% 5% 5%",
-  gridTemplateColumns: "5% 5% 5% 5%"}}>
+      <div style={calculatorUI}>
+        <p id="display">{this.state.displayState}</p>
         <ButtonUI name="equals" symbol="=" onChangeData={this.handleChange} />
         <ButtonUI name="zero" symbol="0" onChangeData={this.handleChange} />
         <ButtonUI name="one" symbol="1" onChangeData={this.handleChange} />
@@ -142,7 +148,6 @@ class App extends React.Component{
         <ButtonUI name="divide" symbol="/" onChangeData={this.handleChange} />
         <ButtonUI name="decimal" symbol="." onChangeData={this.handleChange} />
         <ButtonUI name="clear" symbol="AC" onChangeData={this.handleChange} />
-        <p id="display">{this.state.displayState}</p>
       </div>
     )
   }

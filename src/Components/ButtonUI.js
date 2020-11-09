@@ -1,5 +1,6 @@
 import React from 'react';
 import App from '../App.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class ButtonUI extends React.Component{
   constructor(){
@@ -26,7 +27,7 @@ class ButtonUI extends React.Component{
   render(){
     return(
       <div>
-        <input type="button" id={this.props.name} value={this.props.symbol} onClick={this.handleClick} />
+        <button  className="btn btn-outline-dark" id={this.props.name} value={this.props.symbol} onClick={this.handleClick}>{this.props.symbol}</button>
       </div>
     )
   }
