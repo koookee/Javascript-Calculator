@@ -123,31 +123,39 @@ class App extends React.Component{
 }
   render(){
     let calculatorUI = {
+      position:"absolute",left: "50%",top: "50%",transform: "translate(-50%, -50%)",
+      border: "1px solid #000000",padding: "30px", paddingRight:"50px"
+    }
+    let buttonPad = {
       display:"grid",gridTemplateRows: "15px 15px 15px 15px 15px",
       gridTemplateColumns: "15px 15px 15px 15px", columnGap:"25px", rowGap:"25px",
-      position:"absolute",left: "50%",top: "50%",transform: "translate(-50%, -50%)",
-      border: "0px solid #000000",padding: "10px"}
+      }
+    let displayUI = {
+      border: "1px solid #000000"
+    }
 
     return(
       <div style={calculatorUI}>
-        <p id="display">{this.state.displayState}</p>
-        <ButtonUI name="equals" symbol="=" onChangeData={this.handleChange} />
-        <ButtonUI name="zero" symbol="0" onChangeData={this.handleChange} />
-        <ButtonUI name="one" symbol="1" onChangeData={this.handleChange} />
-        <ButtonUI name="two" symbol="2" onChangeData={this.handleChange} />
-        <ButtonUI name="three" symbol="3" onChangeData={this.handleChange} />
-        <ButtonUI name="four" symbol="4" onChangeData={this.handleChange} />
-        <ButtonUI name="five" symbol="5" onChangeData={this.handleChange} />
-        <ButtonUI name="six" symbol="6" onChangeData={this.handleChange} />
-        <ButtonUI name="seven" symbol="7" onChangeData={this.handleChange} />
-        <ButtonUI name="eight" symbol="8" onChangeData={this.handleChange} />
-        <ButtonUI name="nine" symbol="9" onChangeData={this.handleChange} />
-        <ButtonUI name="add" symbol="+" onChangeData={this.handleChange} />
-        <ButtonUI name="subtract" symbol="-" onChangeData={this.handleChange} />
-        <ButtonUI name="multiply" symbol="*" onChangeData={this.handleChange} />
-        <ButtonUI name="divide" symbol="/" onChangeData={this.handleChange} />
-        <ButtonUI name="decimal" symbol="." onChangeData={this.handleChange} />
-        <ButtonUI name="clear" symbol="AC" onChangeData={this.handleChange} />
+        <p id="display" style={displayUI}>{this.state.displayState}</p>
+        <div style={buttonPad}>
+          <ButtonUI name="equals" symbol="=" onChangeData={this.handleChange} />
+          <ButtonUI name="zero" symbol="0" onChangeData={this.handleChange} />
+          <ButtonUI name="one" symbol="1" onChangeData={this.handleChange} />
+          <ButtonUI name="two" symbol="2" onChangeData={this.handleChange} />
+          <ButtonUI name="three" symbol="3" onChangeData={this.handleChange} />
+          <ButtonUI name="four" symbol="4" onChangeData={this.handleChange} />
+          <ButtonUI name="five" symbol="5" onChangeData={this.handleChange} />
+          <ButtonUI name="six" symbol="6" onChangeData={this.handleChange} />
+          <ButtonUI name="seven" symbol="7" onChangeData={this.handleChange} />
+          <ButtonUI name="eight" symbol="8" onChangeData={this.handleChange} />
+          <ButtonUI name="nine" symbol="9" onChangeData={this.handleChange} />
+          <ButtonUI name="add" symbol="+" onChangeData={this.handleChange} />
+          <ButtonUI name="subtract" symbol="-" onChangeData={this.handleChange} />
+          <ButtonUI name="multiply" symbol="*" onChangeData={this.handleChange} />
+          <ButtonUI name="divide" symbol="/" onChangeData={this.handleChange} />
+          <ButtonUI name="decimal" symbol="." onChangeData={this.handleChange} />
+          <ButtonUI name="clear" symbol="AC" onChangeData={this.handleChange} />
+        </div>
       </div>
     )
   }
