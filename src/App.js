@@ -124,14 +124,15 @@ class App extends React.Component{
   render(){
     let calculatorUI = {
       position:"absolute",left: "50%",top: "50%",transform: "translate(-50%, -50%)",
-      border: "1px solid #000000",padding: "30px", paddingRight:"50px"
+      border: "1px solid #000000",padding: "30px", paddingRight:"50px", borderRadius: "10px",
+      backgroundColor:"#EFEBD8"
     }
     let buttonPad = {
       display:"grid",gridTemplateRows: "15px 15px 15px 15px 15px",
       gridTemplateColumns: "15px 15px 15px 15px", columnGap:"25px", rowGap:"25px",
       }
     let displayUI = {
-      border: "1px solid #000000"
+      border: "1px solid #000000", backgroundColor:"#FFFFFF"
     }
 
     return(

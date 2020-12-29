@@ -27,7 +27,7 @@ class ButtonUI extends React.Component{
   render(){
     return(
       <div>
-        <button className="btn btn-outline-dark" id={this.props.name} value={this.props.symbol} onClick={this.handleClick}>{this.props.symbol}</button>
+        <button className="btn btn-light" id={this.props.name} value={this.props.symbol} onClick={this.handleClick}>{this.props.symbol}</button>
       </div>
     )
   }
